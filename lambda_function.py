@@ -55,17 +55,30 @@ def lambda_handler(event, context):
                 "url": url,
                 "status": "pending"
             }
+            write_start = time.perf_counter()
             table.put_item(Item=item)
-            result = response(201, {"message": "Created", "item": item})
+            write_time_ms = round((time.perf_counter() - write_start) * 1000, 2)
+            result = response(201, {
+                "message": "Created",
+                "item": item,
+                "dynamodb_write_ms": write_time_ms
+            })
 
-        elif method == "GET":
+        elif method == "GET": 
             if target_id:
+                read_start = time.perf_counter()
                 result_data = table.get_item(
                     Key={"id": target_id}
                 ).get("Item")
+                read_time_ms = round(
+                    (time.perf_counter() - read_start) * 1000, 2
+                )
                 if not result_data:
                     return response(404, {"error": "Not found"})
-                result = response(200, result_data)
+                result = response(200, {
+                    **result_data,
+                    "dynamodb_read_ms": read_time_ms
+                })
             else:
                 items = []
                 scan_args = {}
