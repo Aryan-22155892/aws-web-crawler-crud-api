@@ -30,5 +30,6 @@ jobs:
           AWS_DEFAULT_REGION: us-east-2
           AWS_ACCESS_KEY_ID: testing
           AWS_SECRET_ACCESS_KEY: testing
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
         run: |
           python -m unittest discover -s tests -v
