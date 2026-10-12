@@ -116,6 +116,7 @@ GitHub Actions also runs the test suite automatically when changes are pushed to
 
 The API has been deployed to the `beta` stage in AWS API Gateway in the `us-east-2` region.
 
+
 ### Beta API Endpoint
 
 Base URL:
@@ -123,7 +124,22 @@ https://ajdh6czgol.execute-api.us-east-2.amazonaws.com/beta
 
 The Lambda function `CrawlerCRUD` accesses the DynamoDB table `CrawlerTargets` using its IAM execution role.
 
-A production stage and automated AWS CodePipeline deployments are planned.
+### Production API Endpoint
+
+The API is also deployed to the `prod` stage in AWS API Gateway.
+
+Production base URL:
+https://ajdh6czgol.execute-api.us-east-2.amazonaws.com/prod
+
+Both beta and production stages currently use the same Lambda function and DynamoDB table.
+
+### CI/CD Pipeline
+
+AWS CodePipeline automatically retrieves code from GitHub,
+runs automated tests using AWS CodeBuild, and deploys the
+Lambda function.
+
+The pipeline has successfully completed its Source, Build, and Deploy stages.
 
 ## Security and Quality
 
